@@ -3,19 +3,14 @@ const { Telegraf } = require('telegraf')
 const mongo = require('mongodb');
 const MongoClient = mongo.MongoClient;
 
-const url = 'mongodb://localhost:27017';
+const uri = process.env.MONGODB_URI || 'mongodb://localhost:27017';
 
-MongoClient.connect(url, { useNewUrlParser: true }, (err, client) => {
-    if (err) throw err;
-    console.log(client.topology.clientInfo);
-    client.close();
-    const db = client.db("testdb");
+const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+client.connect(err => {
+    const db = client.db("database");
     db.listCollections().toArray().then((docs) => {
         console.log('Available collections:');
         docs.forEach((doc, idx, array) => { console.log(doc.name) });
-    }).catch((err) => {
-        console.log(err);
-    }).finally(() => {
         client.close();
     });
 });
