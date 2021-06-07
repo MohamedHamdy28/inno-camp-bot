@@ -106,10 +106,10 @@ Schedule
 └── All  -> reply
 Homework -> reply
 ```
-Check [the sheet](https://docs.google.com/spreadsheets/d/1SkJlpDoikiiKJ1z5Lq2dAOsoX8C4OBGKbUgNjKxq3Gc/edit#gid=0) for other members.
+Check [the sheet](#inno-camp-bot) for other members.
 
 ## Messages
-Read [the sheet](https://docs.google.com/spreadsheets/d/1SkJlpDoikiiKJ1z5Lq2dAOsoX8C4OBGKbUgNjKxq3Gc/edit#gid=0) and come up with messages for:\
+Read [this](#inno-camp-bot) and come up with messages for:\
 **/start** - introduce to functionality (for each member type,
 including member not found (it should redirect the user to CURATOR(global const string))).
 
@@ -118,6 +118,6 @@ format for schedule, homework.
 
 Error message that redirects to CURATOR 
 
-Put all these messages in cons variables in a file
+Put all these messages in const variables in a file
 
 
