@@ -4,13 +4,13 @@ Legend: A group of children - participants come to a full-time shift up to 4 day
 
 - The participant can request his schedule for a specific day.
 - The participant can request his schedule for the current (next) activity.
-- The escort can request their schedule and the participant's schedule for a specific day.
-- The attendant can request his schedule and the participant's schedule for the current (next) activity.
+- The accompanying can request their schedule and the participant's schedule for a specific day.
+- The accompanying can request his schedule and the participant's schedule for the current (next) activity.
 - Together with the answer on the current (next) activity, the participant and the accompanying person can find out the location of the audience in which the lesson will be held
 - The participant can request homework for the next day.
 - The teacher can upload homework.
 - The curator can upload the schedule with audience numbers.
-- The curator can download the list of participants, accompanying, teachers.
+- The curator can upload the list of participants, accompanying, teachers.
 
 
 
@@ -19,10 +19,10 @@ All time should be GMT+3 \
 Create a separate file for each task
 
 - [ ] [Schedule class](#schedule)
-- [ ] [Homeworks class](#homeworks)
+- [ ] [Homeworks class](#homeworks) [taken]
 - [ ] [Group class](#group) [taken]
-- [ ] [Inline keyboard base](#inline-keyboard-base)
-- [ ] [Messages](#messages)
+- [ ] [Inline keyboard base](#inline-keyboard-base) [taken]
+- [ ] [Messages](#messages) [taken]
 
 ## Schedule
 
@@ -103,6 +103,9 @@ Structure for pupil:
 Schedule
 ├── Now  -> reply
 ├── Day  -> reply
+│   ├─ Day 1  -> reply
+│   ├─ Day 2  -> reply
+│   └─ ...
 └── All  -> reply
 Homework -> reply
 ```
