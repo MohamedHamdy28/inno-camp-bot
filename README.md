@@ -52,12 +52,12 @@ DD month_name | Hw text
 ```
 
 ## Group
-Group class consists of members:
-pupils: Array
-accompanying: Array
-Teachers: Array
-Calendar
-HomeWork
+**Group class consists of members:**\
+pupils: Array\
+accompanying: Array\
+Teachers: Array\
+Schedule\
+Homeworks
 
 *Functions:*\
 **Parse_members(String input)** - sets pupils etc \
