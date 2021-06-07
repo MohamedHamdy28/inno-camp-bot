@@ -1,11 +1,11 @@
 # inno-camp-bot
 
 
-## TODO:
+# TODO:
 All time should be GMT+3 \
 Create a file for each task
 
-### Schedule
+## Schedule
 
 Create a calendar class that contains information about each activity.
 Required functions:
@@ -33,7 +33,7 @@ HH:mm:ss | First_activity | Place
 HH:mm:ss | Second_activity | Place
 ```
 
-### Homeworks
+## Homeworks
 
 Home work class that contains entries with date and homework text \
 **Functions:** \
@@ -51,7 +51,7 @@ MM-DD-YYYY | Hw text
 DD month_name | Hw text
 ```
 
-### Group
+## Group
 Group class consists of members:
 pupils: Array
 accompanying: Array
