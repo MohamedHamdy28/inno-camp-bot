@@ -20,7 +20,7 @@ Create a separate file for each task
 
 - [ ] [Schedule class](#schedule)
 - [ ] [Homeworks class](#homeworks)
-- [ ] [Group class](#group)
+- [ ] [Group class](#group) [taken]
 - [ ] [Inline keyboard base](#inline-keyboard-base)
 - [ ] [Messages](#messages)
 
@@ -28,7 +28,7 @@ Create a separate file for each task
 
 Create a schedule class that contains information about each activity.
 Required functions:
-**Parse(String input)** - returns a Calendar with all activities
+**Parse(String input)** - returns a Schedule with all activities
 
 **Activity_next()** - return string, next activity based on current date/time
 
@@ -38,18 +38,20 @@ Required functions:
 
 *Input file format:*
 ```
-Date(MM-DD-YYYY) | Time(HH:mm:ss) | Activity | Place \
+Date(MM-DD-YYYY) | Time(HH:mm) | Activity | Place
 ```
 Example:
 ```
-06-07-2021 | 22:46:00 | Study | room 108
+06-07-2021 | 22:46 | Study | room 108
 ```
 
 *Output example:* (for activity_all())
 ```
 Date (DD month_name) 
-HH:mm:ss | First_activity | Place
-HH:mm:ss | Second_activity | Place
+HH:mm | First_activity | Place
+HH:mm | Second_activity | Place
+Other_Date (DD month_name) 
+HH:mm | Other_activity | Place
 ```
 
 ## Homeworks
@@ -115,5 +117,7 @@ Read other tasks and come up with messages that explain the input
 format for schedule, homework.
 
 Error message that redirects to CURATOR 
+
+Put all these messages in cons variables in a file
 
 
