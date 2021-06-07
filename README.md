@@ -7,7 +7,7 @@ Create a file for each task
 
 ## Schedule
 
-Create a calendar class that contains information about each activity.
+Create a schedule class that contains information about each activity.
 Required functions:
 **Parse(String input)** - returns a Calendar with all activities
 
@@ -35,7 +35,7 @@ HH:mm:ss | Second_activity | Place
 
 ## Homeworks
 
-Home work class that contains entries with date and homework text \
+Homeworks class that contains entries with date and homework text \
 **Functions:** \
 **upload()** - appends homework to the list, overwrites the entires for the dates that already exist. \
 **get_tomorrow()** - return string with homework for tomorrow \
