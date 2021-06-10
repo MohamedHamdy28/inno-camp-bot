@@ -1,0 +1,99 @@
+const {Telegraf} = require('telegraf')
+
+const bot = new Telegraf('1829443949:AAF0nUS1bJb5ckYyksl2C_SgT2VIhCdwC-s')
+
+// this part is for participants
+bot.start((ctx)=>{
+    ctx.telegram.sendMessage(ctx.chat.id,'choose your type',{
+        reply_markup:{
+            keyboard:[
+                [{text:"participant"},{text:"accompanying"},{text:"teacher"},{text:"curator"}]
+            ],resize_keyboard: true, one_time_keyboard: true
+        }
+    })
+})
+bot.hears('participant',(ctx)=>{
+ctx.telegram.sendMessage(ctx.chat.id,'select what you want',{
+    reply_markup:{
+        keyboard:[
+            [{text:"Schedule"},{text:"Homework"}]
+        ],resize_keyboard: true
+    }
+    })
+}) 
+// teacher part
+bot.hears('teacher',(ctx)=>{
+    ctx.reply("uplode the homework please") 
+       
+})
+bot.hears('curator',(ctx)=>{
+    ctx.telegram.sendMessage(ctx.chat.id,'select what you want',{
+        reply_markup:{
+            keyboard:[
+                [{text:"uplode schedule"},{text:"uplode list"}]
+            ],resize_keyboard: true
+        }
+        })
+})
+bot.hears('uplode schedule',(ctx)=>{
+    ctx.reply("send the schedule please")
+})
+bot.hears('uplode list',(ctx)=>{
+    ctx.reply("send the list please")
+})
+bot.hears('accompanying',(ctx)=>{ // Note: accompanying should recive his schedule and the participant's schedule
+    ctx.telegram.sendMessage(ctx.chat.id,'you can request the schedule for you and the participant',{
+        reply_markup:{
+            keyboard:[
+                [{text:"Schedule"}]
+            ],resize_keyboard: true
+        }
+        })
+})
+bot.hears('Schedule',(ctx)=>{
+    ctx.telegram.sendMessage(ctx.chat.id,'select the time',{
+        reply_markup:{
+            keyboard: [
+                [{text:"Now"},{text:"Day"},{text:"All"}]
+            ],
+            resize_keyboard: true
+        }
+    })
+})
+bot.hears("Now",(ctx)=>{
+    ctx.reply('You have a --- class in room ---, now')
+})
+bot.hears("Day",(ctx)=>{
+    ctx.telegram.sendMessage(ctx.chat.id,'Choose a day',{
+        reply_markup:{
+            inline_keyboard:[
+                [{text:"Day 1",callback_data:"day1"},{text:"Day 2",callback_data:"day2"},{text:"Day 3",callback_data:"day3"},{text:"Day 4",callback_data:"day4"}]
+            ]
+        }
+    })
+})
+bot.action("day1",(ctx)=>{
+    ctx.deleteMessage()
+    ctx.reply('on day 1 you have:')
+})
+bot.action("day2",(ctx)=>{
+    ctx.deleteMessage()
+    ctx.reply('on day 2 you have:')
+})
+bot.action("day3",(ctx)=>{
+    ctx.deleteMessage()
+    ctx.reply('on day 3 you have:')
+})
+bot.action("day4",(ctx)=>{
+    ctx.deleteMessage()
+    ctx.reply('on day 4 you have:')
+})
+bot.hears("All",(ctx)=>{
+    ctx.reply('display the schedual')
+})
+
+bot.hears('Homework',(ctx)=>{
+    ctx.reply('your homework is:')
+})
+
+bot.launch()
