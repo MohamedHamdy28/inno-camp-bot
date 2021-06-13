@@ -1,72 +1,47 @@
-const {Telegraf} = require('telegraf')
+const {Telegraf, session, Scenes:{BaseScene, Stage},Markup} = require('telegraf')
 
 const bot = new Telegraf('1829443949:AAF0nUS1bJb5ckYyksl2C_SgT2VIhCdwC-s')
 
-bot.start((ctx)=>{
-    ctx.telegram.sendMessage(ctx.chat.id,'choose your type',{
+const startScene=new BaseScene('startScene')
+startScene.enter( // asking about the type of the user
+    ctx =>ctx.telegram.sendMessage(ctx.chat.id,'choose your type',{
         reply_markup:{
             keyboard:[
                 [{text:"participant"},{text:"accompanying"},{text:"teacher"},{text:"curator"}]
             ],resize_keyboard: true, one_time_keyboard: true
         }
     })
-})
-
-// this part is for participants
-bot.hears('participant',(ctx)=>{
-ctx.telegram.sendMessage(ctx.chat.id,'select what you want',{
-    reply_markup:{
-        keyboard:[
-            [{text:"Schedule"},{text:"Homework"}]
-        ],resize_keyboard: true
-    }
-    })
+)
+startScene.hears('participant',(ctx)=>{ 
+    ctx.scene.enter('participantScene')
+    ctx.scene.leave()
 }) 
-// teacher part
-bot.hears('teacher',(ctx)=>{
-    ctx.reply("uplode the homework please")
-
+startScene.hears('accompanying',(ctx)=>{
+    ctx.scene.enter('accompanyingScene')
+    ctx.scene.leave()
 })
 
-bot.on('message',(ctx)=>{//intercept incoming messages which is the homework
-    Homework=ctx.message.text
-    ctx.reply("The new homework:\n"+Homework+"\nhas been saved successfully")
+startScene.hears('teacher',(ctx)=>{
+    ctx.scene.enter('teacherScene')
+    ctx.scene.leave()
+})
+startScene.hears('curator',(ctx)=>{
+    ctx.scene.enter('curatorScene')
+    ctx.scene.leave()
 })
 
-
-bot.hears('curator',(ctx)=>{
-    ctx.telegram.sendMessage(ctx.chat.id,'select what you want',{
+const participantScene=new BaseScene('participantScene')
+participantScene.enter(
+    
+    ctx=>ctx.telegram.sendMessage(ctx.chat.id,'Hello participant, select what you want',{
         reply_markup:{
             keyboard:[
-                [{text:"uplode schedule"},{text:"uplode list"}]
+                [{text:"Schedule"},{text:"Homework"}]
             ],resize_keyboard: true
         }
         })
-})
-bot.hears('uplode schedule',(ctx)=>{
-    ctx.reply("send the schedule please")
-})
-bot.on('message',(ctx)=>{
-    schedule=ctx.message.text
-    ctx.reply("The new schedule:\n"+schedule+"\nhas been saved successfully")
-})
-bot.hears('uplode list',(ctx)=>{
-    ctx.reply("send the list please")
-})
-bot.on('message',(ctx)=>{
-    list=ctx.message.text
-    ctx.reply("The new list:\n"+schedule+"\nhas been saved successfully")
-})
-bot.hears('accompanying',(ctx)=>{ // Note: accompanying should recive his schedule and the participant's schedule
-    ctx.telegram.sendMessage(ctx.chat.id,'you can request the schedule for you and the participant',{
-        reply_markup:{
-            keyboard:[
-                [{text:"Schedule"}]
-            ],resize_keyboard: true
-        }
-        })
-})
-bot.hears('Schedule',(ctx)=>{
+)
+participantScene.hears('Schedule',(ctx)=>{
     ctx.telegram.sendMessage(ctx.chat.id,'select the time',{
         reply_markup:{
             keyboard: [
@@ -76,10 +51,10 @@ bot.hears('Schedule',(ctx)=>{
         }
     })
 })
-bot.hears("Now",(ctx)=>{
+participantScene.hears("Now",(ctx)=>{
     ctx.reply('You have a --- class in room ---, now')
 })
-bot.hears("Day",(ctx)=>{
+participantScene.hears("Day",(ctx)=>{
     ctx.telegram.sendMessage(ctx.chat.id,'Choose a day',{
         reply_markup:{
             inline_keyboard:[
@@ -88,28 +63,137 @@ bot.hears("Day",(ctx)=>{
         }
     })
 })
-bot.action("day1",(ctx)=>{
+participantScene.action("day1",(ctx)=>{
     ctx.deleteMessage()
     ctx.reply('on day 1 you have:')
 })
-bot.action("day2",(ctx)=>{
+participantScene.action("day2",(ctx)=>{
     ctx.deleteMessage()
     ctx.reply('on day 2 you have:')
 })
-bot.action("day3",(ctx)=>{
+participantScene.action("day3",(ctx)=>{
     ctx.deleteMessage()
     ctx.reply('on day 3 you have:')
 })
-bot.action("day4",(ctx)=>{
+participantScene.action("day4",(ctx)=>{
     ctx.deleteMessage()
     ctx.reply('on day 4 you have:')
 })
-bot.hears("All",(ctx)=>{
+participantScene.hears("All",(ctx)=>{
     ctx.reply('display the schedual')
 })
 
-bot.hears('Homework',(ctx)=>{
+participantScene.hears('Homework',(ctx)=>{
     ctx.reply('your homework is:')
 })
+
+const accompanyingScene = new BaseScene('accompanyingScene')
+accompanyingScene.enter(
+    ctx=>ctx.telegram.sendMessage(ctx.chat.id,'you can request the schedule for you and the accompany',{
+        reply_markup:{
+            keyboard:[
+                [{text:"Schedule"}]
+            ],resize_keyboard: true
+        }
+        })
+)
+accompanyingScene.hears('Schedule',(ctx)=>{
+    ctx.telegram.sendMessage(ctx.chat.id,'select the time',{
+        reply_markup:{
+            keyboard: [
+                [{text:"Now"},{text:"Day"},{text:"All"}]
+            ],
+            resize_keyboard: true
+        }
+    })
+})
+accompanyingScene.hears("Now",(ctx)=>{
+    ctx.reply('You have a --- class in room ---, now')
+})
+accompanyingScene.hears("Day",(ctx)=>{
+    ctx.telegram.sendMessage(ctx.chat.id,'Choose a day',{
+        reply_markup:{
+            inline_keyboard:[
+                [{text:"Day 1",callback_data:"day1"},{text:"Day 2",callback_data:"day2"},{text:"Day 3",callback_data:"day3"},{text:"Day 4",callback_data:"day4"}]
+            ]
+        }
+    })
+})
+accompanyingScene.action("day1",(ctx)=>{
+    ctx.deleteMessage()
+    ctx.reply('on day 1 you have:')
+})
+accompanyingScene.action("day2",(ctx)=>{
+    ctx.deleteMessage()
+    ctx.reply('on day 2 you have:')
+})
+accompanyingScene.action("day3",(ctx)=>{
+    ctx.deleteMessage()
+    ctx.reply('on day 3 you have:')
+})
+accompanyingScene.action("day4",(ctx)=>{
+    ctx.deleteMessage()
+    ctx.reply('on day 4 you have:')
+})
+accompanyingScene.hears("All",(ctx)=>{
+    ctx.reply('display the schedual')
+})
+
+const teacherScene = new BaseScene('teacherScene')
+teacherScene.enter(
+    ctx=>ctx.reply("uplode the homework please")
+)
+teacherScene.on('message',(ctx)=>{//intercept incoming messages which is the homework
+    Homework=ctx.message.text
+    ctx.reply("The new homework:\n"+Homework+"\nhas been saved successfully")
+    ctx.scene.enter('teacherScene')
+})
+
+const curatorScene = new BaseScene('curatorScene')
+const scheduleScene=new BaseScene('scheduleScene')
+const listScene=new BaseScene('listScene')
+curatorScene.enter(
+    ctx=>ctx.telegram.sendMessage(ctx.chat.id,'select what you want',{
+        reply_markup:{
+            keyboard:[
+                [{text:"uploade schedule"},{text:"uploade list"}]
+            ],resize_keyboard: true
+        }
+        })
+)
+// if he asked to uploade schedule he will enter the scheduleScene and after uploding,
+// he will be returned here again to be able to choose other options
+curatorScene.hears('uploade schedule',(ctx)=>{ 
+    ctx.scene.enter('scheduleScene')
+})
+curatorScene.hears('uploade list',(ctx)=>{
+    ctx.scene.enter('listScene')
+    
+})
+
+
+scheduleScene.enter(
+    ctx=>ctx.reply('send the schedule please')
+)
+scheduleScene.on('message',(ctx)=>{
+    schedule=ctx.message.text
+    ctx.reply("The new schedule:\n"+schedule+"\nhas been saved successfully")
+    ctx.scene.enter('curatorScene')
+})
+
+listScene.enter(
+    ctx=>ctx.reply("send the list please")
+)
+listScene.on('message',(ctx)=>{
+    list=ctx.message.text
+    ctx.reply("The new list:\n"+list+"\nhas been saved successfully")
+    ctx.scene.enter('curatorScene')
+})
+
+
+const stage = new Stage([startScene,participantScene,accompanyingScene,teacherScene,curatorScene,scheduleScene,listScene])// add the new stages here
+bot.use(session())
+bot.use(stage.middleware())
+bot.command('/start',ctx => ctx.scene.enter('startScene'))
 
 bot.launch()
