@@ -2,7 +2,6 @@ const {Telegraf} = require('telegraf')
 
 const bot = new Telegraf('1829443949:AAF0nUS1bJb5ckYyksl2C_SgT2VIhCdwC-s')
 
-// this part is for participants
 bot.start((ctx)=>{
     ctx.telegram.sendMessage(ctx.chat.id,'choose your type',{
         reply_markup:{
@@ -12,6 +11,8 @@ bot.start((ctx)=>{
         }
     })
 })
+
+// this part is for participants
 bot.hears('participant',(ctx)=>{
 ctx.telegram.sendMessage(ctx.chat.id,'select what you want',{
     reply_markup:{
@@ -23,9 +24,16 @@ ctx.telegram.sendMessage(ctx.chat.id,'select what you want',{
 }) 
 // teacher part
 bot.hears('teacher',(ctx)=>{
-    ctx.reply("uplode the homework please") 
-       
+    ctx.reply("uplode the homework please")
+
 })
+
+bot.on('message',(ctx)=>{//intercept incoming messages which is the homework
+    Homework=ctx.message.text
+    ctx.reply("The new homework:\n"+Homework+"\nhas been saved successfully")
+})
+
+
 bot.hears('curator',(ctx)=>{
     ctx.telegram.sendMessage(ctx.chat.id,'select what you want',{
         reply_markup:{
@@ -38,8 +46,16 @@ bot.hears('curator',(ctx)=>{
 bot.hears('uplode schedule',(ctx)=>{
     ctx.reply("send the schedule please")
 })
+bot.on('message',(ctx)=>{
+    schedule=ctx.message.text
+    ctx.reply("The new schedule:\n"+schedule+"\nhas been saved successfully")
+})
 bot.hears('uplode list',(ctx)=>{
     ctx.reply("send the list please")
+})
+bot.on('message',(ctx)=>{
+    list=ctx.message.text
+    ctx.reply("The new list:\n"+schedule+"\nhas been saved successfully")
 })
 bot.hears('accompanying',(ctx)=>{ // Note: accompanying should recive his schedule and the participant's schedule
     ctx.telegram.sendMessage(ctx.chat.id,'you can request the schedule for you and the participant',{
